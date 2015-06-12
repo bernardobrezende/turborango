@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -18,8 +19,14 @@ namespace TurboRango.Web.Controllers
         {
             var restaurantes = db.Restaurantes
                 .Include(x => x.Contato)
-                .Include(x => x.Localizacao);
-            return View(restaurantes.ToList());
+                .Include(x => x.Localizacao)
+                .ToList();
+
+            ViewBag.Pizzarias = JsonConvert.SerializeObject(
+                restaurantes.Where(x => x.Categoria == Categoria.Pizzaria)
+            );
+
+            return View(restaurantes);
         }
 
         // GET: Restaurantes/Details/5
