@@ -50,6 +50,9 @@ namespace TurboRango.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Capacidade,Nome,Categoria,Contato,Localizacao")] Restaurante restaurante)
         {
+            ModelState.Remove("Localizacao.Id");
+            ModelState.Remove("Contato.Id");
+
             if (ModelState.IsValid)
             {
                 db.Restaurantes.Add(restaurante);
